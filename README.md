@@ -1,70 +1,46 @@
-# Excel Worker AI Agent (LangGraph with tool calling)
+# Financial Spreadsheet Agent Pipeline
 
-This Agent enabling analysis of Excel files using free-form queries as user input.
+A Jupyter Notebook workflow for analyzing Excel spreadsheets through a LangGraph state-based agent. The workflow accepts a natural-language question, selects an analysis tool, validates generated queries, and returns spreadsheet results.
 
-If you have any questions or would like to collaborate, feel free to reach out to me on [LinkedIn](https://www.linkedin.com/in/jenya-stoeva-60477249/). You're more than welcome!
+## What it demonstrates
 
-**Core Architecture**
-* State-based agent using StateGraph pattern for workflow control
-* OpenAI GPT-4o model for query generation and validation
-* Two-node system: query generation and validation nodes
-* Type-safe state management with AgentState TypedDict
+- State-based orchestration with LangGraph `StateGraph`
+- LLM-assisted query generation and validation
+- Spreadsheet loading and preview with Pandas
+- DataFrame operations for straightforward analysis
+- DuckDB SQL queries for more complex operations
+- Query-result validation, error handling, and bounded iteration
+- Handling of missing values and numeric edge cases in query validation
 
-**Main Tools**
-* load_preview_data: Excel structure analysis and metadata extraction
-* complex_duckdb_query: SQL operations with DuckDB connection
-* simple_dataframe_query: Pandas operations with safe eval environment
+## Tools in the workflow
 
-**Key Features**
-* **State Management:**
-  * Tracks query execution, validation states
-  * Manages conversation history
-  * Thread-safe checkpointing
-  * Error propagation and recovery
+- `load_preview_data` — inspects spreadsheet columns, data types, and sample rows
+- `simple_dataframe_query` — evaluates Pandas-based operations in a restricted environment
+- `complex_duckdb_query` — runs SQL against a registered Pandas DataFrame
 
-* **Tool Orchestration:**
-  * Dynamic tool selection by LLM
-  * Parallel tool execution capability
-  * Safety limits: max 3 calls per tool
-  * Automatic tool argument injection
-  * Tool result validation
+## Prerequisites
 
-* **Data Processing:**
-  * Excel file structure analysis
-  * SQL query execution via DuckDB
-  * Pandas operations in a safe environment
-  * Null/NaN value handling
-  * Data type preservation
+- JupyterLab, Google Colab, or another notebook environment
+- Python packages used by the notebook: `langchain`, `langgraph`, `pandas`, `python-dotenv`, and `duckdb`
+- An LLM API key configured for the model used by the notebook
 
-* **Control Flow:**
-  * Two-stage validation pipeline
-  * Max 7 iterations per query
-  * Conditional edge routing
-  * State-based decision making
+## Run the notebook
 
+1. Clone the repository:
 
-## Intallation
+   ```bash
+   git clone https://github.com/tejaswi-6189/fin-sheet-agent-pipeline.git
+   cd fin-sheet-agent-pipeline
+   ```
 
-<b>Prerequisites</b>
+2. Open `ExcelWorkerLLMToolCallAgent.ipynb` in JupyterLab or Google Colab.
 
-* Access to <b>JupyterLab, Google Colab</b>, or another interactive computing environment to run this Jupyter Notebook.
-* Access to LLM API.
+3. Configure the required LLM environment variables in the notebook environment.
 
-### Step 1: Clone the Repository
+4. Run the notebook cells in order. The first setup cell installs the required Python libraries.
 
-Clone this repository to your local machine:
-```
-git clone <REPOSITORY_URL>
-cd <PROJECT_FOLDER>
-```
+5. Provide an Excel file in the notebook's working directory and ask a question about its data.
 
-### Step 2: Open Jupyter Notebook in JupyterLab
+## Notebook
 
-Ensure that ```<PROJECT_FOLDER>``` is accessible in JupyterLab by setting it as your working directory in JupyterLab.
- * In JupyterLab, use the "Open from Path" option to load ```ExcelWorkerLLMToolCallAgent.ipynb```.
- * Similarly, load ```.env``` and populate the variable keys with appropriate values.
- * The first cell in the Notebook installs the required libraries: **%pip install langchain langgraph pandas python-dotenv duckdb**
-
-### Step 3: Run the Jupyter Notebook
-
-To execute the notebook, select each cell and press ```Shift + Enter```.
+- [`ExcelWorkerLLMToolCallAgent.ipynb`](ExcelWorkerLLMToolCallAgent.ipynb)
